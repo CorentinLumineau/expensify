@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { UserButton, SignInButton, SignedOut, SignedIn } from "@clerk/nextjs";
-import { InvestmentLogo } from '@/app/components/InvestmentLogo';
 
 export default function Header() {
     return (
@@ -9,18 +8,7 @@ export default function Header() {
                 <Link href="/" className="flex items-center space-x-2">
                     <span className="text-xl font-bold text-foreground">Bite</span>
                 </Link>
-                <nav className="flex items-center space-x-4">
-                    <SignedIn>
-                        <UserButton />
-                    </SignedIn>
-                    <SignedOut>
-                        <SignInButton mode="modal">
-                            <button className="text-sm font-medium text-gray-700 hover:text-gray-900">
-                                Sign In
-                            </button>
-                        </SignInButton>
-                    </SignedOut>
-                </nav>
+                
             </div>
         </header>
     );
