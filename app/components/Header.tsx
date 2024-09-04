@@ -7,8 +7,7 @@ export default function Header() {
         <header className="bg-background shadow-sm">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
                 <Link href="/" className="flex items-center space-x-2">
-                    <InvestmentLogo className="w-8 h-8 text-primary" />
-                    <span className="text-xl font-bold text-foreground">Expensify</span>
+                    <span className="text-xl font-bold text-foreground">Bite</span>
                 </Link>
                 <nav className="flex items-center space-x-4">
                     <SignedIn>
