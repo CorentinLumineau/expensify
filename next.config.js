@@ -6,7 +6,6 @@ const nextConfig = {
     config.resolve.alias['@'] = path.resolve(__dirname);
     return config;
   },
-  // ... other configurations
 };
 
 module.exports = nextConfig;
