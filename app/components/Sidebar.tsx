@@ -1,7 +1,6 @@
 'use client'
 import { LayoutDashboard, PieChartIcon, Calculator } from "lucide-react";
 import HeaderSidebar from "./HeaderSidebar";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { useTheme } from '../contexts/ThemeContext';
 
 interface SidebarProps {

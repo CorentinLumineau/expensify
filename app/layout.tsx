@@ -6,7 +6,6 @@ import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import Head from 'next/head';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { InstallPrompt } from "./components/InstallPrompt";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export default function RootLayout({
