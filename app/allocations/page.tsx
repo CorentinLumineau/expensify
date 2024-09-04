@@ -1,6 +1,6 @@
 export default function AllocationsPage() {
     return (
-        <div className="">
+        <div>
             Hello Allocations
         </div>
     )

@@ -5,6 +5,7 @@ import Sidebar from "./components/Sidebar";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import Head from 'next/head';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 export default function RootLayout({
   children,
@@ -27,17 +28,19 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Expensify" />
       </Head>
       <ClerkProvider>
-        <body>
-          <div className="flex h-screen">
-            <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
-            <div className="flex flex-col flex-1 overflow-hidden">
-              <Header toggleSidebar={toggleSidebar} />
-              <main className="flex-1 overflow-y-auto p-4">
-                {children}
-              </main>
+        <ThemeProvider>
+          <body className="dark:bg-gray-900 dark:text-white">
+            <div className="flex h-screen">
+              <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
+              <div className="flex flex-col flex-1 overflow-hidden">
+                <Header toggleSidebar={toggleSidebar} />
+                <main className="flex-1 overflow-y-auto p-8">
+                  {children}
+                </main>
+              </div>
             </div>
-          </div>
-        </body>
+          </body>
+        </ThemeProvider>
       </ClerkProvider>
     </html>
   );
