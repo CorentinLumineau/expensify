@@ -91,7 +91,7 @@ export default function CompoundInterestPage() {
   }, [principal, monthlyInvestment, rate, time, compound, withdrawRate]);
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('de-DE', { 
+    return new Intl.NumberFormat('fr-FR', { 
       style: 'currency', 
       currency: 'EUR',
       minimumFractionDigits: 0,
@@ -110,7 +110,6 @@ export default function CompoundInterestPage() {
   };
 
   const chartOptions = {
-    responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
@@ -120,8 +119,7 @@ export default function CompoundInterestPage() {
           pointStyle: 'rect',
           color: theme === 'light' ? 'black' : 'white',
           font: {
-            size: 14,
-            weight: 'bold',
+            size: 14
           },
         },
       },
@@ -130,16 +128,14 @@ export default function CompoundInterestPage() {
         text: 'Compound Interest Growth',
         color: theme === 'light' ? 'black' : 'white',
         font: {
-          size: 18,
-          weight: 'bold',
+          size: 18
         },
       },
       tooltip: {
         mode: 'index' as const,
         intersect: false,
         titleFont: {
-          size: 16,
-          weight: 'bold',
+          size: 16
         },
         bodyFont: {
           size: 14,
