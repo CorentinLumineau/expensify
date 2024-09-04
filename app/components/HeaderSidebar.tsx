@@ -1,5 +1,6 @@
 'use client'
 import { X } from "lucide-react";
+import Image from "next/image";
 
 interface HeaderSidebarProps {
   onClose: () => void;
@@ -7,12 +8,20 @@ interface HeaderSidebarProps {
 
 export default function HeaderSidebar({ onClose }: HeaderSidebarProps) {
   return (
-    <div className="flex justify-between items-center px-4 bg-white border-b h-16">
-      <img src="/icon.png" alt="Expensify" width={56} height={56} />
-      <h2 className="text-lg font-semibold">Expensify</h2>
+    <div className="flex justify-between items-center px-4 bg-white border-b h-16 relative">
+      <Image
+        src="/icon-512x512.png"
+        alt="Expensify"
+        width={56}
+        height={56}
+        priority
+        className="z-10"
+      />
+      <h2 className="text-lg font-semibold absolute left-1/2 transform -translate-x-1/2 ml-7 hidden md:block">Expensify</h2>
+      <h2 className="text-lg font-semibold md:hidden">Expensify</h2>
       <button
         onClick={onClose}
-        className="md:hidden"
+        className="md:hidden z-10"
       >
         <X className="w-6 h-6" />
       </button>

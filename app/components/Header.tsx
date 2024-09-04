@@ -25,16 +25,16 @@ export default function Header({ toggleSidebar }: HeaderProps) {
 
     return (
         <header className="bg-white shadow-sm h-16">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+            <div className="mx-auto px-4 sm:px-8 h-full">
                 <div className="flex justify-between items-center h-full">
-                    <div className="flex items-center">
+                    <div className="flex">
                         <button
                             className="mr-4 md:hidden"
                             onClick={toggleSidebar}
                         >
                             <Menu className="w-6 h-6" />
                         </button>
-                        <h1 className="text-lg font-semibold">{pageTitle}</h1>
+                        <h1 className="text-2xl leading-none font-semibold">{pageTitle}</h1>
                     </div>
                     <div>
                         <SignedIn>

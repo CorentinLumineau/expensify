@@ -30,6 +30,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         md:relative md:translate-x-0
         transition duration-200 ease-in-out
         w-64 bg-gray-100 min-h-screen flex flex-col z-30
+        md:border-r border-gray-200
       `}>
         <HeaderSidebar onClose={onClose} />
         <ul className="space-y-2 p-4 flex-grow overflow-y-auto">

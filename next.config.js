@@ -1,6 +1,12 @@
 const path = require('path');
 
-/** @type {import('next').NextConfig} */
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+  register: true,
+  skipWaiting: true,
+})
+
 const nextConfig = {
   webpack: (config) => {
     config.resolve.alias['@'] = path.resolve(__dirname);
@@ -8,4 +14,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withPWA(nextConfig);

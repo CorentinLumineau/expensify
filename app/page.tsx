@@ -1,9 +1,7 @@
+import { redirect } from "next/navigation";
+
 export default function Home() {
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="text-center">
-        Coucou
-      </div>
-    </div>
+    redirect('/dashboard')
   );
 }
