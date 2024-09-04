@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import Head from 'next/head';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { InstallPrompt } from "./components/InstallPrompt";
 
 export default function RootLayout({
   children,
@@ -30,6 +31,7 @@ export default function RootLayout({
       <ClerkProvider>
         <ThemeProvider>
           <body className="dark:bg-gray-900 dark:text-white">
+            <InstallPrompt />
             <div className="flex h-screen">
               <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
               <div className="flex flex-col flex-1 overflow-hidden">
