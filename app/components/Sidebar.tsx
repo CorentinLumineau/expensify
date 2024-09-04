@@ -1,5 +1,5 @@
 'use client'
-import { LayoutDashboard, PieChartIcon } from "lucide-react";
+import { LayoutDashboard, PieChartIcon, Calculator } from "lucide-react";
 import HeaderSidebar from "./HeaderSidebar";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { useTheme } from '../contexts/ThemeContext';
@@ -13,8 +13,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { theme } = useTheme();
   
   const navItems = [
-    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    { name: "Allocations", href: "/allocations", icon: PieChartIcon },
+    { name: "Compound Interest", href: "/compound-interest", icon: Calculator },
+    // { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    // { name: "Allocations", href: "/allocations", icon: PieChartIcon },
   ];
 
   return (
