@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useDispatch, useSelector } from 'react-redux';
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -8,6 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
 import { useTheme } from '../contexts/ThemeContext';
+import { RootState } from '../store/store';
+import { updateState, CompoundInterestState } from '../store/compoundInterestSlice';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
@@ -30,38 +33,38 @@ const formatLargeNumber = (num: number): string => {
 };
 
 export default function CompoundInterestPage() {
-  const [principal, setPrincipal] = useState<number>(1000);
-  const [monthlyInvestment, setMonthlyInvestment] = useState<number>(500);
-  const [rate, setRate] = useState<number>(8);
-  const [time, setTime] = useState<number>(20);
-  const [compound, setCompound] = useState<string>("1");
-  const [withdrawRate, setWithdrawRate] = useState<number>(4);
+  const dispatch = useDispatch();
+  const state = useSelector((state: RootState) => state.compoundInterest);
   const [chartData, setChartData] = useState<any>(null);
   const [finalAmount, setFinalAmount] = useState<number>(0);
   const [monthlyRevenue, setMonthlyRevenue] = useState<number>(0);
   const { theme } = useTheme();
 
-  const calculateCompoundInterest = () => {
-    let totalAmount = principal;
-    const totalMonths = time * 12;
-    const compoundFrequency = Number(compound);
+  useEffect(() => {
+    calculateCompoundInterest();
+  }, [state]);
 
-    const principalData = [principal];
-    const compoundData = [principal];
+  const calculateCompoundInterest = () => {
+    let totalAmount = state.principal;
+    const totalMonths = state.time * 12;
+    const compoundFrequency = Number(state.compound);
+
+    const principalData = [state.principal];
+    const compoundData = [state.principal];
 
     for (let month = 1; month <= totalMonths; month++) {
-      totalAmount = totalAmount * Math.pow((1 + (rate / 100) / compoundFrequency), compoundFrequency / 12) + monthlyInvestment;
+      totalAmount = totalAmount * Math.pow((1 + (state.rate / 100) / compoundFrequency), compoundFrequency / 12) + state.monthlyInvestment;
       if (month % 12 === 0) {
-        principalData.push(principal + monthlyInvestment * month);
+        principalData.push(state.principal + state.monthlyInvestment * month);
         compoundData.push(Number(totalAmount.toFixed(2)));
       }
     }
 
     setFinalAmount(totalAmount);
-    setMonthlyRevenue((totalAmount * (withdrawRate / 100)) / 12);
+    setMonthlyRevenue((totalAmount * (state.withdrawRate / 100)) / 12);
 
     const currentYear = new Date().getFullYear();
-    const labels = Array.from({ length: time + 1 }, (_, i) => (currentYear + i).toString());
+    const labels = Array.from({ length: state.time + 1 }, (_, i) => (currentYear + i).toString());
 
     setChartData({
       labels,
@@ -86,9 +89,9 @@ export default function CompoundInterestPage() {
     });
   };
 
-  useEffect(() => {
-    calculateCompoundInterest();
-  }, [principal, monthlyInvestment, rate, time, compound, withdrawRate]);
+  const handleInputChange = (key: keyof CompoundInterestState, value: number | string) => {
+    dispatch(updateState({ [key]: value }));
+  };
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('fr-FR', { 
@@ -202,8 +205,8 @@ export default function CompoundInterestPage() {
                 <Input
                   id="principal"
                   type="number"
-                  value={principal}
-                  onChange={(e) => setPrincipal(Number(e.target.value))}
+                  value={state.principal}
+                  onChange={(e) => handleInputChange('principal', Number(e.target.value))}
                 />
               </div>
               <div className="space-y-2">
@@ -211,8 +214,8 @@ export default function CompoundInterestPage() {
                 <Input
                   id="monthlyInvestment"
                   type="number"
-                  value={monthlyInvestment}
-                  onChange={(e) => setMonthlyInvestment(Number(e.target.value))}
+                  value={state.monthlyInvestment}
+                  onChange={(e) => handleInputChange('monthlyInvestment', Number(e.target.value))}
                 />
               </div>
               <div className="space-y-2">
@@ -220,21 +223,21 @@ export default function CompoundInterestPage() {
                 <Input
                   id="time"
                   type="number"
-                  value={time}
-                  onChange={(e) => setTime(Number(e.target.value))}
+                  value={state.time}
+                  onChange={(e) => handleInputChange('time', Number(e.target.value))}
                 />
               </div>
             </div>
             <div className="space-y-4">
               <div className="space-y-3">
-                <Label htmlFor="rate">Annual Interest Rate: {rate}%</Label>
+                <Label htmlFor="rate">Annual Interest Rate: {state.rate}%</Label>
                 <Slider
                   id="rate"
                   min={0}
                   max={15}
                   step={0.5}
-                  value={[rate]}
-                  onValueChange={(value) => setRate(value[0])}
+                  value={[state.rate]}
+                  onValueChange={(value) => handleInputChange('rate', value[0])}
                 />
                 <div className="flex justify-between text-xs text-muted-foreground">
                   <span>0%</span>
@@ -242,14 +245,14 @@ export default function CompoundInterestPage() {
                 </div>
               </div>
               <div className="space-y-3">
-                <Label htmlFor="withdrawRate">Withdraw Rate: {withdrawRate}%</Label>
+                <Label htmlFor="withdrawRate">Withdraw Rate: {state.withdrawRate}%</Label>
                 <Slider
                   id="withdrawRate"
                   min={2}
                   max={5}
                   step={0.2}
-                  value={[withdrawRate]}
-                  onValueChange={(value) => setWithdrawRate(value[0])}
+                  value={[state.withdrawRate]}
+                  onValueChange={(value) => handleInputChange('withdrawRate', value[0])}
                 />
                 <div className="flex justify-between text-xs text-muted-foreground">
                   <span>2%</span>
@@ -258,7 +261,7 @@ export default function CompoundInterestPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="compound">Compound Frequency (per year)</Label>
-                <Select value={compound} onValueChange={setCompound}>
+                <Select value={state.compound} onValueChange={(value) => handleInputChange('compound', value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select compound frequency" />
                   </SelectTrigger>
@@ -283,7 +286,7 @@ export default function CompoundInterestPage() {
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Monthly Revenue (at {withdrawRate}% withdraw rate)</h3>
+                  <h3 className="text-lg font-semibold mb-2">Monthly Revenue (at {state.withdrawRate}% withdraw rate)</h3>
                   <p className="text-2xl font-bold">
                     {formatCurrency(monthlyRevenue)}
                   </p>
