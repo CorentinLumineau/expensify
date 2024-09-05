@@ -22,16 +22,6 @@ const compoundOptions = [
   { value: "365", label: 'Daily' },
 ];
 
-const formatLargeNumber = (num: number): string => {
-  if (num >= 1000000) {
-    return (num / 1000000).toFixed(1) + 'M';
-  } else if (num >= 1000) {
-    return (num / 100000).toFixed(0) + 'k';
-  } else {
-    return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(num);
-  }
-};
-
 export default function CompoundInterestPage() {
   const dispatch = useDispatch();
   const state = useSelector((state: RootState) => state.compoundInterest);
@@ -82,6 +72,14 @@ export default function CompoundInterestPage() {
           data: compoundData,
           borderColor: 'rgb(53, 162, 235)',
           backgroundColor: 'rgb(53, 162, 235)',
+          fill: true,
+          pointRadius: 2,
+        },
+        {
+          label: 'Total',
+          data: principalData.map((_, index) => principalData[index] + compoundData[index]),
+          borderColor: 'rgb(255, 159, 64)',
+          backgroundColor: 'rgb(255, 159, 64)',
           fill: true,
           pointRadius: 2,
         },

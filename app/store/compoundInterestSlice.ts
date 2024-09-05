@@ -7,6 +7,7 @@ export interface CompoundInterestState {
   time: number;
   compound: string;
   withdrawRate: number;
+  total: number; // New field for total
 }
 
 const initialState: CompoundInterestState = {
@@ -15,7 +16,8 @@ const initialState: CompoundInterestState = {
   rate: 8,
   time: 20,
   compound: "1",
-  withdrawRate: 4
+  withdrawRate: 4,
+  total: 0, // Initialize total
 };
 
 export const compoundInterestSlice = createSlice({
@@ -23,7 +25,10 @@ export const compoundInterestSlice = createSlice({
   initialState,
   reducers: {
     updateState: (state, action: PayloadAction<Partial<CompoundInterestState>>) => {
-      return { ...state, ...action.payload };
+      const newState = { ...state, ...action.payload };
+      // Calculate total (interest + capital)
+      newState.total = newState.principal + (newState.monthlyInvestment * 12 * newState.time);
+      return newState;
     },
   },
 });
