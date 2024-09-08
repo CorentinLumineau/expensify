@@ -15,7 +15,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/t
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 
 const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(amount)
+  const formatter = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  return formatter.format(amount);
 }
 
 export function AdvancedDebtRatioCalculator() {
@@ -24,29 +25,6 @@ export function AdvancedDebtRatioCalculator() {
   const incomes = useSelector((state: RootState) => state.debtRatio.incomes)
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null)
   const [editingType, setEditingType] = useState<'expense' | 'income'>('expense')
-
-  const addTransactionHandler = (type: 'expense' | 'income') => {
-    const nameInput = document.getElementById(`${type}Name`) as HTMLInputElement
-    const amountInput = document.getElementById(`${type}Amount`) as HTMLInputElement
-    const percentageInput = document.getElementById(`${type}Percentage`) as HTMLInputElement
-
-    const name = nameInput.value.trim()
-    const amount = parseFloat(amountInput.value)
-    const percentage = parseFloat(percentageInput.value) || 100 // Default to 100% if empty
-
-    if (!name || isNaN(amount) || amount <= 0 || percentage < 0 || percentage > 100) {
-      alert('Please enter valid values for all fields.')
-      return
-    }
-
-    const newTransaction: Transaction = { id: Date.now().toString(), name, amount, percentage }
-    dispatch(addTransaction({ type, transaction: newTransaction }))
-
-    // Clear input fields
-    nameInput.value = ''
-    amountInput.value = ''
-    percentageInput.value = '100' // Reset to 100%
-  }
 
   const updateTransactionHandler = (type: 'expense' | 'income', transaction: Transaction) => {
     dispatch(updateTransaction({ type, transaction }))
@@ -133,34 +111,36 @@ export function AdvancedDebtRatioCalculator() {
     }
 
     return (
-      <div className="space-y-4">
+      <div className={`space-y-4 p-4 rounded-lg ${type === 'expense' ? 'bg-orange-200 dark:bg-orange-800' : 'bg-green-200 dark:bg-green-800'}`}>
         <div>
-          <Label htmlFor={`${type}Name`}>Name</Label>
+          <Label htmlFor={`${type}Name`} className={`${type === 'expense' ? 'text-orange-900 dark:text-orange-100' : 'text-green-900 dark:text-green-100'}`}>Name</Label>
           <Input
             id={`${type}Name`}
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder={`${type.charAt(0).toUpperCase() + type.slice(1)} name`}
+            className={`${type === 'expense' ? 'border-orange-400 focus:border-orange-600' : 'border-green-400 focus:border-green-600'}`}
           />
         </div>
         <div className="flex space-x-2">
           <div className="flex-1">
-            <Label htmlFor={`${type}Amount`}>Amount (€)</Label>
+            <Label htmlFor={`${type}Amount`} className={`${type === 'expense' ? 'text-orange-900 dark:text-orange-100' : 'text-green-900 dark:text-green-100'}`}>Amount (€)</Label>
             <Input
               id={`${type}Amount`}
               type="number"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="Amount"
+              className={`${type === 'expense' ? 'border-orange-400 focus:border-orange-600' : 'border-green-400 focus:border-green-600'}`}
             />
           </div>
           <div className="flex-1 space-y-2">
             <div className="flex items-center space-x-2">
-              <Label htmlFor={`${type}Percentage`}>Consideration %</Label>
+              <Label htmlFor={`${type}Percentage`} className={`${type === 'expense' ? 'text-orange-900 dark:text-orange-100' : 'text-green-900 dark:text-green-100'}`}>Consideration %</Label>
               <TooltipProvider>
                 <Tooltip delayDuration={0}>
                   <TooltipTrigger asChild>
-                    <Info className="h-4 w-4" />
+                    <Info className={`h-4 w-4 ${type === 'expense' ? 'text-orange-700 dark:text-orange-300' : 'text-green-700 dark:text-green-300'}`} />
                   </TooltipTrigger>
                   <TooltipContent>
                     <p className="text-sm">
@@ -177,10 +157,18 @@ export function AdvancedDebtRatioCalculator() {
               value={percentage}
               onChange={(e) => setPercentage(e.target.value)}
               placeholder="Percentage"
+              className={`${type === 'expense' ? 'border-orange-400 focus:border-orange-600' : 'border-green-400 focus:border-green-600'}`}
             />
           </div>
         </div>
-        <Button onClick={handleSubmit} className="w-full bg-green-600 hover:bg-green-700 text-white">
+        <Button 
+          onClick={handleSubmit} 
+          className={`w-full ${
+            type === 'expense' 
+              ? 'bg-orange-500 hover:bg-orange-600 text-white' 
+              : 'bg-green-500 hover:bg-green-600 text-white'
+          }`}
+        >
           {transaction ? (
             <Pencil className="mr-2 h-4 w-4" />
           ) : (
