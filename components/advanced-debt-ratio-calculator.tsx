@@ -195,6 +195,7 @@ export function AdvancedDebtRatioCalculator() {
           <TransactionForm type="expense" />
           <TransactionList transactions={expenses} type="expense" />
         </div>
+        <Separator className="my-6 md:hidden" />
         <div>
           <h3 className="text-lg font-semibold mb-4">Incomes</h3>
           <TransactionForm type="income" />
@@ -203,21 +204,16 @@ export function AdvancedDebtRatioCalculator() {
       </CardContent>
       <Separator className="my-4" />
       <CardContent>
-        <div className="text-center space-y-2">
-          <p className="text-lg">Total Expenses: <span className="font-semibold text-orange-500">{formatCurrency(totalExpenses)}</span></p>
-          <p className="text-lg">Total Incomes: <span className="font-semibold text-green-500">{formatCurrency(totalIncomes)}</span></p>
-          <p className="text-xl font-bold mt-4">Debt Ratio:
+        <div className="flex flex-col space-y-4">
+          <div className="flex flex-row justify-between items-center">
+            <p className="text-lg">Total Expenses: <span className="font-semibold text-orange-500">{formatCurrency(totalExpenses)}</span></p>
+            <p className="text-lg">Total Incomes: <span className="font-semibold text-green-500">{formatCurrency(totalIncomes)}</span></p>
+          </div>
+          <p className="text-xl font-bold text-center">Debt Ratio:
             <span className={totalIncomes > 0 ? (debtRatio < 0.35 ? "text-green-500" : "text-orange-500") : ""}>
-              {totalIncomes > 0 ? ` ${(debtRatio * 100).toFixed(2)}%` : 'N/A'}
+              {totalIncomes > 0 ? ` ${(debtRatio * 100).toFixed(2)}%` : ' N/A'}
             </span>
           </p>
-          {totalIncomes > 0 && (
-            <p className="text-sm text-gray-600">
-              {debtRatio > 1
-                ? "Your considered expenses exceed your considered incomes. You may want to review your financial situation."
-                : "Your considered incomes exceed your considered expenses. This is generally a good financial position."}
-            </p>
-          )}
         </div>
       </CardContent>
       <Dialog open={!!editingTransaction} onOpenChange={() => setEditingTransaction(null)}>
