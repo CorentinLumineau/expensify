@@ -8,7 +8,7 @@ export function LanguageToggle() {
   const { language, setLanguage } = useLanguage()
 
   const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'en' : 'fr');
+    setLanguage(language === 'en' ? 'fr' : 'en');
   };
 
   return (
@@ -19,7 +19,7 @@ export function LanguageToggle() {
       aria-label={`Switch to ${language === 'en' ? 'French' : 'English'}`}
     >
       <Image
-        src={`/images/${language === 'en' ? 'fr' : 'gb'}-flag.svg`}
+        src={`/images/${language === 'fr' ? 'fr' : 'gb'}-flag.svg`}
         alt={language === 'en' ? 'French flag' : 'British flag'}
         width={24}
         height={18}
