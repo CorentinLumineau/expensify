@@ -1,7 +1,7 @@
 import { AdvancedDebtRatioCalculator } from '@/components/advanced-debt-ratio-calculator'
 
 export const metadata = {
-  title: 'Advanced Debt Ratio Calculator',
+  title: 'Debt Ratio',
   description: 'Calculate your debt ratio with our advanced tool',
 }
 
