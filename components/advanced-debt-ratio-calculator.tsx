@@ -52,7 +52,7 @@ export function AdvancedDebtRatioCalculator() {
 
   const TransactionList = ({ transactions, type }: { transactions: Transaction[], type: 'expense' | 'income' }) => (
     <div className="mt-4 space-y-2">
-      {transactions.sort((a, b) => b.amount - a.amount).map((t) => (
+      {[...transactions].sort((a, b) => b.amount - a.amount).map((t) => (
         <Card key={t.id} className="flex justify-between items-center p-3 rounded-lg shadow-sm bg-neutral-50 dark:bg-neutral-900">
           <span className="font-medium dark:text-gray-200 flex-grow">{t.name}</span>
           <span className="dark:text-gray-300 text-right w-32">{formatCurrency(t.amount)} ({t.percentage}%)</span>

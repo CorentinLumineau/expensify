@@ -3,6 +3,7 @@ import { Calculator, ChevronDown } from "lucide-react";
 import HeaderSidebar from "./HeaderSidebar";
 import { useLanguage } from '@/app/contexts/LanguageContext';
 import { translations, Language } from '@/app/translations';
+import { usePathname } from "next/navigation";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ interface SidebarProps {
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { language } = useLanguage();
   const t = translations[language as Language].sidebar;
+  const pathname = usePathname();
   
   const navItems = [
     {
@@ -46,7 +48,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         <ul className="space-y-6 p-4 flex-grow overflow-y-auto">
           {navItems.map((section) => (
             <li key={section.section}>
-              <details className="group">
+              <details open className="group">
                 <summary className="mb-2 px-4 text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase flex items-center cursor-pointer">
                   <section.icon className="w-5 h-5 mr-2" />
                   {section.section}
@@ -55,8 +57,16 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                 <ul className="space-y-2 mt-2">
                   {section.items.map((item) => (
                     <li key={item.name}>
-                      <a href={item.href} className="flex items-center py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
+                      <a 
+                        href={item.href} 
+                        className={`flex items-center py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded relative ${
+                          pathname === item.href ? 'bg-gray-100 dark:bg-gray-700' : ''
+                        }`}
+                      >
                         <span className="ml-4">{item.name}</span>
+                        {pathname === item.href && (
+                          <span className="absolute inset-y-0 left-0 w-1 bg-primary rounded-r" aria-hidden="true" />
+                        )}
                       </a>
                     </li>
                   ))}

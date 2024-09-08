@@ -8,7 +8,7 @@ export function LanguageToggle() {
   const { language, setLanguage } = useLanguage()
 
   const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'fr' : 'en');
+    setLanguage(language === 'en' ? 'en' : 'fr');
   };
 
   return (
