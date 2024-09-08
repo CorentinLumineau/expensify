@@ -2,17 +2,20 @@ import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import compoundInterestReducer from './compoundInterestSlice';
+import debtRatioReducer from './debtRatioSlice';
 
 const persistConfig = {
   key: 'root',
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, compoundInterestReducer);
+const persistedCompoundInterestReducer = persistReducer(persistConfig, compoundInterestReducer);
+const persistedDebtRatioReducer = persistReducer(persistConfig, debtRatioReducer);
 
 export const store = configureStore({
   reducer: {
-    compoundInterest: persistedReducer,
+    compoundInterest: persistedCompoundInterestReducer,
+    debtRatio: persistedDebtRatioReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

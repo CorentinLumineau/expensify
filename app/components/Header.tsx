@@ -19,6 +19,8 @@ export default function Header({ toggleSidebar }: HeaderProps) {
                 return 'Allocations';
             case '/compound-interest':
                 return 'Compound Interest Calculator';
+            case '/debt-ratio':
+                return 'Debt Ratio Calculator';
             default:
                 return 'Expensify';
         }

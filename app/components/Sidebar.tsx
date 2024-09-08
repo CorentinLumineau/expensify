@@ -15,6 +15,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     { name: "Compound Interest", href: "/compound-interest", icon: Calculator },
     // { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     // { name: "Allocations", href: "/allocations", icon: PieChartIcon },
+    { name: "Debt Ratio Calculator", href: "/debt-ratio", icon: Calculator },
   ];
 
   return (
