@@ -12,10 +12,14 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { theme } = useTheme();
   
   const navItems = [
-    { name: "Compound Interest", href: "/compound-interest", icon: Calculator },
-    // { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    // { name: "Allocations", href: "/allocations", icon: PieChartIcon },
-    { name: "Debt Ratio Calculator", href: "/debt-ratio", icon: Calculator },
+    {
+      section: "Simulators",
+      icon: Calculator,
+      items: [
+        { name: "Compound Interest", href: "/compound-interest" },
+        { name: "Debt Ratio Calculator", href: "/debt-ratio" },
+      ],
+    },
   ];
 
   return (
@@ -37,13 +41,22 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         md:border-r border-gray-200 dark:border-gray-700
       `}>
         <HeaderSidebar onClose={onClose} />
-        <ul className="space-y-2 p-4 flex-grow overflow-y-auto">
-          {navItems.map((item) => (
-            <li key={item.name}>
-              <a href={item.href} className="flex items-center py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
-                <item.icon className="w-5 h-5 mr-2" />
-                {item.name}
-              </a>
+        <ul className="space-y-6 p-4 flex-grow overflow-y-auto">
+          {navItems.map((section) => (
+            <li key={section.section}>
+              <h3 className="mb-2 px-4 text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase flex items-center">
+                <section.icon className="w-5 h-5 mr-2" />
+                {section.section}
+              </h3>
+              <ul className="space-y-2">
+                {section.items.map((item) => (
+                  <li key={item.name}>
+                    <a href={item.href} className="flex items-center py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </li>
           ))}
         </ul>
