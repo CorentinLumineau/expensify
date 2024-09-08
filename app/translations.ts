@@ -1,4 +1,4 @@
-export const translations = {
+export const translations: Record<string, any> = {
   en: {
     common: {
       edit: 'Edit',

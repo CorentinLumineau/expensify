@@ -43,13 +43,18 @@ export default function CompoundInterestPage() {
     const compoundFrequency = Number(state.compound);
 
     const principalData = [state.principal];
-    const compoundData = [state.principal];
+    const compoundData = [0]; // Start with 0 compound interest
+    const totalData = [state.principal];
 
     for (let month = 1; month <= totalMonths; month++) {
-      totalAmount = totalAmount * Math.pow((1 + (state.rate / 100) / compoundFrequency), compoundFrequency / 12) + state.monthlyInvestment;
+      const interestGained = totalAmount * (state.rate / 100 / compoundFrequency) * (compoundFrequency / 12);
+      totalAmount = totalAmount + interestGained + state.monthlyInvestment;
+      
       if (month % 12 === 0) {
-        principalData.push(state.principal + state.monthlyInvestment * month);
-        compoundData.push(Number(totalAmount.toFixed(2)));
+        const principalContribution = state.principal + state.monthlyInvestment * month;
+        principalData.push(principalContribution);
+        compoundData.push(Number((totalAmount - principalContribution).toFixed(2)));
+        totalData.push(Number(totalAmount.toFixed(2)));
       }
     }
 
@@ -67,7 +72,8 @@ export default function CompoundInterestPage() {
           data: principalData,
           borderColor: 'rgb(75, 192, 192)',
           backgroundColor: 'rgb(75, 192, 192)',
-          fill: true,
+          borderWidth: 1,
+          fill: false,  // Change this to false
           pointRadius: 2,
         },
         {
@@ -75,15 +81,17 @@ export default function CompoundInterestPage() {
           data: compoundData,
           borderColor: 'rgb(53, 162, 235)',
           backgroundColor: 'rgb(53, 162, 235)',
-          fill: true,
+          borderWidth: 1,
+          fill: false,  // Change this to false
           pointRadius: 2,
         },
         {
           label: t.total,
-          data: principalData.map((_, index) => principalData[index] + compoundData[index]),
+          data: totalData,
           borderColor: 'rgb(255, 159, 64)',
           backgroundColor: 'rgb(255, 159, 64)',
-          fill: true,
+          borderWidth: 1,
+          fill: false,  // Change this to false
           pointRadius: 2,
         },
       ],
@@ -120,7 +128,8 @@ export default function CompoundInterestPage() {
         position: 'top' as const,
         labels: {
           usePointStyle: true,
-          pointStyle: 'rect',
+          pointStyle: 'rectRounded',
+          padding: 20,
           color: theme === 'light' ? 'black' : 'white',
           font: {
             size: 14
@@ -159,7 +168,9 @@ export default function CompoundInterestPage() {
             }
             return label;
           }
-        }
+        },
+        usePointStyle: true,
+        boxPadding: 6,
       }
     },
     scales: {
@@ -220,7 +231,7 @@ export default function CompoundInterestPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="time">{t.investmentDuration} (years)</Label>
+                <Label htmlFor="time">{t.investmentDuration}</Label>
                 <Input
                   id="time"
                   type="number"

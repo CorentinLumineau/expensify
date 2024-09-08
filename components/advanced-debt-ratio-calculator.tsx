@@ -14,7 +14,7 @@ import { Transaction } from '@/app/store/debtRatioSlice'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 import { useLanguage } from '@/app/contexts/LanguageContext'
-import { translations, Language } from '@/app/translations'
+import { Language, translations } from '@/app/translations'
 
 const formatCurrency = (amount: number) => {
   const formatter = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
@@ -53,7 +53,7 @@ export function AdvancedDebtRatioCalculator() {
   const TransactionList = ({ transactions, type }: { transactions: Transaction[], type: 'expense' | 'income' }) => (
     <div className="mt-4 space-y-2">
       {transactions.sort((a, b) => b.amount - a.amount).map((t) => (
-        <div key={t.id} className="flex justify-between items-center bg-gray-50 dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+        <Card key={t.id} className="flex justify-between items-center p-3 rounded-lg shadow-sm bg-neutral-50 dark:bg-neutral-900">
           <span className="font-medium dark:text-gray-200 flex-grow">{t.name}</span>
           <span className="dark:text-gray-300 text-right w-32">{formatCurrency(t.amount)} ({t.percentage}%)</span>
           <div className="flex ml-4">
@@ -79,7 +79,7 @@ export function AdvancedDebtRatioCalculator() {
               <span className="sr-only">Remove {type}</span>
             </Button>
           </div>
-        </div>
+        </Card>
       ))}
     </div>
   )
@@ -186,7 +186,7 @@ export function AdvancedDebtRatioCalculator() {
   }
 
   return (
-    <Card className="bg-gray-50 dark:bg-gray-900">
+    <Card>
       <CardContent className="grid md:grid-cols-2 gap-6 pt-6">
         <div>
           <h3 className="text-lg font-semibold mb-4">{t.expenses}</h3>

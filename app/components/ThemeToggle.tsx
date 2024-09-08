@@ -19,8 +19,6 @@ export function ThemeToggle() {
     { value: 'system', icon: Monitor, label: 'System' },
   ];
 
-  const currentTheme = themeOptions.find(option => option.value === theme) || themeOptions[2];
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
