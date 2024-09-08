@@ -2,8 +2,8 @@
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Menu } from "lucide-react";
 import { usePathname } from 'next/navigation';
-import ThemeToggle from './ThemeToggle';
 import { LanguageToggle } from "./LanguageToggle";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface HeaderProps {
     toggleSidebar: () => void;
@@ -30,7 +30,7 @@ export default function Header({ toggleSidebar }: HeaderProps) {
     const pageTitle = getPageTitle(pathname);
 
     return (
-        <header className="bg-white dark:bg-gray-800 shadow-sm h-16">
+        <header className="shadow-sm h-16">
             <div className="mx-auto px-4 sm:px-8 h-full">
                 <div className="flex justify-between items-center h-full">
                     <div className="flex items-center">

@@ -1,7 +1,6 @@
 'use client'
-import { LayoutDashboard, PieChartIcon, Calculator, ChevronDown } from "lucide-react";
+import { Calculator, ChevronDown } from "lucide-react";
 import HeaderSidebar from "./HeaderSidebar";
-import { useTheme } from '../contexts/ThemeContext';
 import { useLanguage } from '@/app/contexts/LanguageContext';
 import { translations, Language } from '@/app/translations';
 
@@ -11,7 +10,6 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
-  const { theme } = useTheme();
   const { language } = useLanguage();
   const t = translations[language as Language].sidebar;
   
@@ -38,10 +36,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       
       {/* Sidebar */}
       <nav className={`
-        fixed inset-y-0 left-0 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        fixed inset-y-0 left-0 transform ${isOpen ? 'translate-x-0 bg-background' : '-translate-x-full'}
         md:relative md:translate-x-0
         transition duration-200 ease-in-out
-        w-64 bg-white dark:bg-gray-800 min-h-screen flex flex-col z-30
+        w-64 min-h-screen flex flex-col z-30
         md:border-r border-gray-200 dark:border-gray-700
       `}>
         <HeaderSidebar onClose={onClose} />

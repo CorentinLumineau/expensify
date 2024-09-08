@@ -2,6 +2,7 @@
 
 import { useLanguage } from '@/app/contexts/LanguageContext'
 import Image from 'next/image'
+import { Button } from "@/components/ui/button"
 
 export function LanguageToggle() {
   const { language, setLanguage } = useLanguage()
@@ -11,8 +12,9 @@ export function LanguageToggle() {
   };
 
   return (
-    <button
-      className="flex items-center space-x-2 p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+    <Button
+      variant="outline"
+      size="icon"
       onClick={toggleLanguage}
       aria-label={`Switch to ${language === 'en' ? 'French' : 'English'}`}
     >
@@ -22,6 +24,6 @@ export function LanguageToggle() {
         width={24}
         height={18}
       />
-    </button>
+    </Button>
   );
 }

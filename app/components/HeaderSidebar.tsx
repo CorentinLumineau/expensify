@@ -16,7 +16,7 @@ export default function HeaderSidebar({ onClose }: HeaderSidebarProps) {
   };
 
   return (
-    <div className="flex justify-between items-center px-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 h-16 relative">
+    <div className="flex justify-between items-center px-4 border-b border-gray-200 dark:border-gray-700 h-16 relative">
       <div 
         className="flex items-center cursor-pointer"
         onClick={handleLogoClick}
@@ -29,10 +29,10 @@ export default function HeaderSidebar({ onClose }: HeaderSidebarProps) {
           priority
           className="z-10"
         />
-      </div>
       <h2 className="absolute left-1/2 transform -translate-x-1/3 text-lg font-semibold text-gray-900 dark:text-white">
         Expensify
       </h2>
+      </div>
       <button
         onClick={onClose}
         className="md:hidden z-10 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
