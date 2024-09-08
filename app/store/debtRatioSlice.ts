@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Transaction {
+  id: string; // Add an id field for easier updates
   name: string;
   amount: number;
   percentage: number;
@@ -28,16 +29,24 @@ const debtRatioSlice = createSlice({
         state.incomes.push(transaction);
       }
     },
-    removeTransaction: (state, action: PayloadAction<{ type: 'expense' | 'income', index: number }>) => {
-      const { type, index } = action.payload;
+    updateTransaction: (state, action: PayloadAction<{ type: 'expense' | 'income', transaction: Transaction }>) => {
+      const { type, transaction } = action.payload;
+      const array = type === 'expense' ? state.expenses : state.incomes;
+      const index = array.findIndex(t => t.id === transaction.id);
+      if (index !== -1) {
+        array[index] = transaction;
+      }
+    },
+    removeTransaction: (state, action: PayloadAction<{ type: 'expense' | 'income', id: string }>) => {
+      const { type, id } = action.payload;
       if (type === 'expense') {
-        state.expenses.splice(index, 1);
+        state.expenses = state.expenses.filter(t => t.id !== id);
       } else {
-        state.incomes.splice(index, 1);
+        state.incomes = state.incomes.filter(t => t.id !== id);
       }
     },
   },
 });
 
-export const { addTransaction, removeTransaction } = debtRatioSlice.actions;
+export const { addTransaction, updateTransaction, removeTransaction } = debtRatioSlice.actions;
 export default debtRatioSlice.reducer;

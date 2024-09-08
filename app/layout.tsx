@@ -4,7 +4,6 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
-import Head from 'next/head';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Provider } from 'react-redux';
@@ -23,20 +22,11 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <Head>
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#000000" />
-        <link rel="apple-touch-icon" href="/icon-192x192.png" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Expensify" />
-        <SpeedInsights />
-      </Head>
-      <ClerkProvider>
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <ThemeProvider>
-              <body className="dark:bg-gray-900 dark:text-white">
+      <body className="dark:bg-gray-900 dark:text-white">
+        <ClerkProvider>
+          <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+              <ThemeProvider>
                 <div className="flex h-screen">
                   <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
                   <div className="flex flex-col flex-1 overflow-hidden">
@@ -46,11 +36,12 @@ export default function RootLayout({
                     </main>
                   </div>
                 </div>
-              </body>
-            </ThemeProvider>
-          </PersistGate>
-        </Provider>
-      </ClerkProvider>
+              </ThemeProvider>
+            </PersistGate>
+          </Provider>
+        </ClerkProvider>
+        <SpeedInsights />
+      </body>
     </html>
   );
 }
