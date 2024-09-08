@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
-import { Info, PlusCircle, Trash2, Edit } from 'lucide-react'
+import { Info, PlusCircle, Trash2, Edit, Pencil } from 'lucide-react'
 import { addTransaction, updateTransaction, removeTransaction } from '@/app/store/debtRatioSlice'
 import { RootState } from '@/app/store/store'
 import { Transaction } from '@/app/store/debtRatioSlice'
@@ -181,7 +181,12 @@ export function AdvancedDebtRatioCalculator() {
           </div>
         </div>
         <Button onClick={handleSubmit} className="w-full bg-green-600 hover:bg-green-700 text-white">
-          <PlusCircle className="mr-2 h-4 w-4" /> {transaction ? 'Update' : 'Add'} {type.charAt(0).toUpperCase() + type.slice(1)}
+          {transaction ? (
+            <Pencil className="mr-2 h-4 w-4" />
+          ) : (
+            <PlusCircle className="mr-2 h-4 w-4" />
+          )}
+          {transaction ? 'Update' : 'Add'} {type.charAt(0).toUpperCase() + type.slice(1)}
         </Button>
       </div>
     )
