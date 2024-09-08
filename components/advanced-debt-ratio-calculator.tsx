@@ -13,6 +13,8 @@ import { RootState } from '@/app/store/store'
 import { Transaction } from '@/app/store/debtRatioSlice'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
+import { useLanguage } from '@/app/contexts/LanguageContext'
+import { translations, Language } from '@/app/translations'
 
 const formatCurrency = (amount: number) => {
   const formatter = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
@@ -20,6 +22,10 @@ const formatCurrency = (amount: number) => {
 }
 
 export function AdvancedDebtRatioCalculator() {
+  const { language } = useLanguage()
+  const t = translations[language as Language].debtRatioCalculator
+  const common = translations[language as Language].common
+
   const dispatch = useDispatch()
   const expenses = useSelector((state: RootState) => state.debtRatio.expenses)
   const incomes = useSelector((state: RootState) => state.debtRatio.incomes)
@@ -46,11 +52,11 @@ export function AdvancedDebtRatioCalculator() {
 
   const TransactionList = ({ transactions, type }: { transactions: Transaction[], type: 'expense' | 'income' }) => (
     <div className="mt-4 space-y-2">
-      {transactions.map((t) => (
+      {transactions.sort((a, b) => b.amount - a.amount).map((t) => (
         <div key={t.id} className="flex justify-between items-center bg-gray-50 dark:bg-gray-800 p-3 rounded-lg shadow-sm">
-          <span className="font-medium dark:text-gray-200">{t.name}</span>
-          <span className="dark:text-gray-300">{formatCurrency(t.amount)} ({t.percentage}%)</span>
-          <div>
+          <span className="font-medium dark:text-gray-200 flex-grow">{t.name}</span>
+          <span className="dark:text-gray-300 text-right w-32">{formatCurrency(t.amount)} ({t.percentage}%)</span>
+          <div className="flex ml-4">
             <Button
               variant="ghost"
               size="icon"
@@ -85,7 +91,7 @@ export function AdvancedDebtRatioCalculator() {
 
     const handleSubmit = () => {
       if (!name || isNaN(parseFloat(amount)) || parseFloat(amount) <= 0 || isNaN(parseFloat(percentage)) || parseFloat(percentage) < 0 || parseFloat(percentage) > 100) {
-        alert('Please enter valid values for all fields.')
+        alert(common.pleaseEnterValidValues)
         return
       }
 
@@ -113,30 +119,30 @@ export function AdvancedDebtRatioCalculator() {
     return (
       <div className={`space-y-4 p-4 rounded-lg ${type === 'expense' ? 'bg-orange-200 dark:bg-orange-800' : 'bg-green-200 dark:bg-green-800'}`}>
         <div>
-          <Label htmlFor={`${type}Name`} className={`${type === 'expense' ? 'text-orange-900 dark:text-orange-100' : 'text-green-900 dark:text-green-100'}`}>Name</Label>
+          <Label htmlFor={`${type}Name`} className={`${type === 'expense' ? 'text-orange-900 dark:text-orange-100' : 'text-green-900 dark:text-green-100'}`}>{common.name}</Label>
           <Input
             id={`${type}Name`}
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder={`${type.charAt(0).toUpperCase() + type.slice(1)} name`}
+            placeholder={`${t[type === 'expense' ? 'expenseName' : 'incomeName']}`}
             className={`${type === 'expense' ? 'border-orange-400 focus:border-orange-600' : 'border-green-400 focus:border-green-600'}`}
           />
         </div>
         <div className="flex space-x-2">
           <div className="flex-1">
-            <Label htmlFor={`${type}Amount`} className={`${type === 'expense' ? 'text-orange-900 dark:text-orange-100' : 'text-green-900 dark:text-green-100'}`}>Amount (€)</Label>
+            <Label htmlFor={`${type}Amount`} className={`${type === 'expense' ? 'text-orange-900 dark:text-orange-100' : 'text-green-900 dark:text-green-100'}`}>{common.amount} (€)</Label>
             <Input
               id={`${type}Amount`}
               type="number"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              placeholder="Amount"
+              placeholder={common.amount}
               className={`${type === 'expense' ? 'border-orange-400 focus:border-orange-600' : 'border-green-400 focus:border-green-600'}`}
             />
           </div>
           <div className="flex-1 space-y-2">
             <div className="flex items-center space-x-2">
-              <Label htmlFor={`${type}Percentage`} className={`${type === 'expense' ? 'text-orange-900 dark:text-orange-100' : 'text-green-900 dark:text-green-100'}`}>Consideration %</Label>
+              <Label htmlFor={`${type}Percentage`} className={`${type === 'expense' ? 'text-orange-900 dark:text-orange-100' : 'text-green-900 dark:text-green-100'}`}>{t.considerationPercentage}</Label>
               <TooltipProvider>
                 <Tooltip delayDuration={0}>
                   <TooltipTrigger asChild>
@@ -144,8 +150,7 @@ export function AdvancedDebtRatioCalculator() {
                   </TooltipTrigger>
                   <TooltipContent>
                     <p className="text-sm">
-                      Adjust this percentage to consider only a portion of the {type} in your debt ratio calculation.
-                      This is useful for variable or uncertain {type}s.
+                      {t.considerationTooltip[type]}
                     </p>
                   </TooltipContent>
                 </Tooltip>
@@ -156,7 +161,7 @@ export function AdvancedDebtRatioCalculator() {
               type="number"
               value={percentage}
               onChange={(e) => setPercentage(e.target.value)}
-              placeholder="Percentage"
+              placeholder={common.percentage}
               className={`${type === 'expense' ? 'border-orange-400 focus:border-orange-600' : 'border-green-400 focus:border-green-600'}`}
             />
           </div>
@@ -174,23 +179,23 @@ export function AdvancedDebtRatioCalculator() {
           ) : (
             <PlusCircle className="mr-2 h-4 w-4" />
           )}
-          {transaction ? 'Update' : 'Add'} {type.charAt(0).toUpperCase() + type.slice(1)}
+          {transaction ? common.update : common.add} {type === 'expense' ? t.expense : t.income}
         </Button>
       </div>
     )
   }
 
   return (
-    <Card>
+    <Card className="bg-gray-50 dark:bg-gray-900">
       <CardContent className="grid md:grid-cols-2 gap-6 pt-6">
         <div>
-          <h3 className="text-lg font-semibold mb-4">Expenses</h3>
+          <h3 className="text-lg font-semibold mb-4">{t.expenses}</h3>
           <TransactionForm type="expense" />
           <TransactionList transactions={expenses} type="expense" />
         </div>
         <Separator className="my-6 md:hidden" />
         <div>
-          <h3 className="text-lg font-semibold mb-4">Incomes</h3>
+          <h3 className="text-lg font-semibold mb-4">{t.incomes}</h3>
           <TransactionForm type="income" />
           <TransactionList transactions={incomes} type="income" />
         </div>
@@ -199,10 +204,10 @@ export function AdvancedDebtRatioCalculator() {
       <CardContent>
         <div className="flex flex-col space-y-4">
           <div className="flex flex-row justify-between items-center">
-            <p className="text-lg">Total Expenses: <span className="font-semibold text-orange-500">{formatCurrency(totalExpenses)}</span></p>
-            <p className="text-lg">Total Incomes: <span className="font-semibold text-green-500">{formatCurrency(totalIncomes)}</span></p>
+            <p className="text-lg">{t.totalExpenses}: <span className="font-semibold text-orange-500">{formatCurrency(totalExpenses)}</span></p>
+            <p className="text-lg">{t.totalIncomes}: <span className="font-semibold text-green-500">{formatCurrency(totalIncomes)}</span></p>
           </div>
-          <p className="text-xl font-bold text-center">Debt Ratio:
+          <p className="text-xl font-bold text-center">{t.debtRatio}:
             <span className={totalIncomes > 0 ? (debtRatio < 0.35 ? "text-green-500" : "text-orange-500") : ""}>
               {totalIncomes > 0 ? ` ${(debtRatio * 100).toFixed(2)}%` : ' N/A'}
             </span>
@@ -210,7 +215,7 @@ export function AdvancedDebtRatioCalculator() {
         </div>
       </CardContent>
       <Dialog open={!!editingTransaction} onOpenChange={() => setEditingTransaction(null)}>
-        <DialogContent>
+        <DialogContent className="bg-gray-50 dark:bg-gray-900">
           <DialogHeader>
             <DialogTitle>Edit {editingType.charAt(0).toUpperCase() + editingType.slice(1)}</DialogTitle>
           </DialogHeader>

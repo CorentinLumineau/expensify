@@ -3,6 +3,7 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Menu } from "lucide-react";
 import { usePathname } from 'next/navigation';
 import ThemeToggle from './ThemeToggle';
+import { LanguageToggle } from "./LanguageToggle";
 
 interface HeaderProps {
     toggleSidebar: () => void;
@@ -43,6 +44,7 @@ export default function Header({ toggleSidebar }: HeaderProps) {
                     </div>
                     <div className="flex items-center space-x-4">
                         <ThemeToggle />
+                        <LanguageToggle />
                         <SignedIn>
                             <UserButton appearance={{
                                 elements: {

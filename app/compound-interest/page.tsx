@@ -11,6 +11,8 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { useTheme } from '../contexts/ThemeContext';
 import { RootState } from '../store/store';
 import { updateState, CompoundInterestState } from '../store/compoundInterestSlice';
+import { useLanguage } from '@/app/contexts/LanguageContext';
+import { translations, Language } from '@/app/translations';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
@@ -29,11 +31,12 @@ export default function CompoundInterestPage() {
   const [finalAmount, setFinalAmount] = useState<number>(0);
   const [monthlyRevenue, setMonthlyRevenue] = useState<number>(0);
   const { theme } = useTheme();
+  const { language } = useLanguage();
+  const t = translations[language as Language].compoundInterestCalculator;
 
   useEffect(() => {
     calculateCompoundInterest();
-  }, [state]);
-
+  }, [state, language]);
   const calculateCompoundInterest = () => {
     let totalAmount = state.principal;
     const totalMonths = state.time * 12;
@@ -60,7 +63,7 @@ export default function CompoundInterestPage() {
       labels,
       datasets: [
         {
-          label: 'Total Contributions',
+          label: t.totalContributions,
           data: principalData,
           borderColor: 'rgb(75, 192, 192)',
           backgroundColor: 'rgb(75, 192, 192)',
@@ -68,7 +71,7 @@ export default function CompoundInterestPage() {
           pointRadius: 2,
         },
         {
-          label: 'Compound Interest',
+          label: t.compoundInterest,
           data: compoundData,
           borderColor: 'rgb(53, 162, 235)',
           backgroundColor: 'rgb(53, 162, 235)',
@@ -76,7 +79,7 @@ export default function CompoundInterestPage() {
           pointRadius: 2,
         },
         {
-          label: 'Total',
+          label: t.total,
           data: principalData.map((_, index) => principalData[index] + compoundData[index]),
           borderColor: 'rgb(255, 159, 64)',
           backgroundColor: 'rgb(255, 159, 64)',
@@ -92,7 +95,7 @@ export default function CompoundInterestPage() {
   };
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('fr-FR', { 
+    return new Intl.NumberFormat(language === 'en' ? 'en-US' : 'fr-FR', { 
       style: 'currency', 
       currency: 'EUR',
       minimumFractionDigits: 0,
@@ -126,7 +129,7 @@ export default function CompoundInterestPage() {
       },
       title: {
         display: true,
-        text: 'Compound Interest Growth',
+        text: t.title,
         color: theme === 'light' ? 'black' : 'white',
         font: {
           size: 18
@@ -164,7 +167,7 @@ export default function CompoundInterestPage() {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Amount (€)',
+          text: t.amount,
           color: theme === 'light' ? 'black' : 'white',
         },
         ticks: {
@@ -177,7 +180,7 @@ export default function CompoundInterestPage() {
       x: {
         title: {
           display: true,
-          text: 'Year',
+          text: t.year,
           color: theme === 'light' ? 'black' : 'white',
         },
         ticks: {
@@ -199,7 +202,7 @@ export default function CompoundInterestPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="principal">Initial Investment (€)</Label>
+                <Label htmlFor="principal">{t.initialInvestment} (€)</Label>
                 <Input
                   id="principal"
                   type="number"
@@ -208,7 +211,7 @@ export default function CompoundInterestPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="monthlyInvestment">Monthly Investment (€)</Label>
+                <Label htmlFor="monthlyInvestment">{t.monthlyInvestment} (€)</Label>
                 <Input
                   id="monthlyInvestment"
                   type="number"
@@ -217,7 +220,7 @@ export default function CompoundInterestPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="time">Time (years)</Label>
+                <Label htmlFor="time">{t.investmentDuration} (years)</Label>
                 <Input
                   id="time"
                   type="number"
@@ -228,7 +231,7 @@ export default function CompoundInterestPage() {
             </div>
             <div className="space-y-4">
               <div className="space-y-3">
-                <Label htmlFor="rate">Annual Interest Rate: {state.rate}%</Label>
+                <Label htmlFor="rate">{t.annualInterestRate}: {state.rate}%</Label>
                 <Slider
                   id="rate"
                   min={0}
@@ -243,7 +246,7 @@ export default function CompoundInterestPage() {
                 </div>
               </div>
               <div className="space-y-3">
-                <Label htmlFor="withdrawRate">Withdraw Rate: {state.withdrawRate}%</Label>
+                <Label htmlFor="withdrawRate">{t.withdrawRate}: {state.withdrawRate}%</Label>
                 <Slider
                   id="withdrawRate"
                   min={2}
@@ -258,10 +261,10 @@ export default function CompoundInterestPage() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="compound">Compound Frequency (per year)</Label>
+                <Label htmlFor="compound">{t.compoundFrequency} (per year)</Label>
                 <Select value={state.compound} onValueChange={(value) => handleInputChange('compound', value)}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select compound frequency" />
+                    <SelectValue placeholder={t.selectCompoundFrequency} />
                   </SelectTrigger>
                   <SelectContent>
                     {compoundOptions.map((option) => (
@@ -278,13 +281,13 @@ export default function CompoundInterestPage() {
             <CardContent className="pt-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Final Amount</h3>
+                  <h3 className="text-lg font-semibold mb-2">{t.finalAmount}</h3>
                   <p className="text-2xl font-bold">
                     {formatCurrency(finalAmount)}
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Monthly Revenue (at {state.withdrawRate}% withdraw rate)</h3>
+                  <h3 className="text-lg font-semibold mb-2">{t.monthlyRevenue} ({state.withdrawRate}% {t.withdrawRate})</h3>
                   <p className="text-2xl font-bold">
                     {formatCurrency(monthlyRevenue)}
                   </p>
