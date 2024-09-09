@@ -166,13 +166,12 @@ export function DebtRatioCalculator() {
             />
           </div>
         </div>
-        <Button 
-          onClick={handleSubmit} 
-          className={`w-full ${
-            type === 'expense' 
-              ? 'bg-orange-500 hover:bg-orange-600 text-white' 
-              : 'bg-green-500 hover:bg-green-600 text-white'
-          }`}
+        <Button
+          onClick={handleSubmit}
+          className={`w-full ${type === 'expense'
+            ? 'bg-orange-500 hover:bg-orange-600 text-white'
+            : 'bg-green-500 hover:bg-green-600 text-white'
+            }`}
         >
           {transaction ? (
             <Pencil className="mr-2 h-4 w-4" />

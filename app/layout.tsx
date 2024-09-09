@@ -1,7 +1,5 @@
 'use client'
 import { useState } from "react";
-import Header from "../components/common/Header";
-import Sidebar from "../components/common/Sidebar";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -10,6 +8,8 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './store/store';
 import { LanguageProvider } from './contexts/LanguageContext';
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
 
 export default function RootLayout({
   children,
