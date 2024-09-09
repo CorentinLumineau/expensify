@@ -13,7 +13,7 @@ export default function Header({ toggleSidebar }: HeaderProps) {
     const pathname = usePathname();
 
     const getPageTitle = (path: string) => {
-        switch(path) {
+        switch (path) {
             case '/dashboard':
                 return 'Dashboard';
             case '/allocations':

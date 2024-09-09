@@ -1,9 +1,8 @@
 import { DebtRatioCalculator } from './debt-ratio-calculator'
+import { generateMetadata } from '@/utils/getMetadata'
+import { Metadata } from 'next'
 
-export const metadata = {
-  title: 'Debt Ratio',
-  description: 'Calculate your debt ratio with our advanced tool',
-}
+export const metadata: Metadata = generateMetadata('/debt-ratio')
 
 export default function DebtRatioPage() {
   return (
