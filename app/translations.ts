@@ -1,6 +1,7 @@
 export const translations: Record<string, any> = {
   en: {
     common: {
+      total: 'Total',
       edit: 'Edit',
       remove: 'Remove',
       update: 'Update',
@@ -9,8 +10,14 @@ export const translations: Record<string, any> = {
       amount: 'Amount',
       percentage: 'Percentage',
       pleaseEnterValidValues: 'Please enter valid values for all fields.',
+      calculate: 'Calculate',
+      results: 'Results',
+      finalBalance: 'Final Balance',
+      year: 'Year',
     },
     sidebar: {
+      dashboard: 'Dashboard',
+      assetAllocation: 'Asset Allocation',
       simulators: 'Simulators',
       compoundInterest: 'Compound Interest',
       debtRatio: 'Debt Ratio',
@@ -37,16 +44,10 @@ export const translations: Record<string, any> = {
       monthlyContribution: 'Monthly Contribution',
       annualInterestRate: 'Annual Interest Rate',
       investmentDuration: 'Investment Duration (Years)',
-      calculate: 'Calculate',
-      results: 'Results',
       totalInvestment: 'Total Investment',
       interestEarned: 'Interest Earned',
-      finalBalance: 'Final Balance',
       totalContributions: 'Total Contributions',
       compoundInterest: 'Compound Interest',
-      total: 'Total',
-      amount: 'Amount',
-      year: 'Year',
       monthlyRevenue: 'Monthly Revenue',
       withdrawRate: 'Withdraw Rate',
       compoundFrequency: 'Compound Frequency',
@@ -54,10 +55,26 @@ export const translations: Record<string, any> = {
       monthlyInvestment: 'Monthly Investment',
       selectCompoundFrequency: 'Select compound frequency',
     },
-    // Add other features here as needed
+    assetAllocation: {
+      title: 'Asset Allocation',
+      totalAmount: 'Total Amount (€)',
+      cashAmount: 'Cash Amount (€)',
+      type: 'Type',
+      percentageWithoutCash: '% (without Cash)',
+      percentageWithCash: '% (with Cash)',
+      totalsShouldEqual: 'Totals should equal 100%',
+      assetTypes: {
+        Cash: 'Cash',
+        RealEstate: 'Real Estate',
+        Crypto: 'Crypto',
+        Stock: 'Stock',
+        Gold: 'Gold'
+      }
+    },
   },
   fr: {
     common: {
+      total: 'Total',
       edit: 'Modifier',
       remove: 'Supprimer',
       update: 'Mettre à jour',
@@ -66,8 +83,14 @@ export const translations: Record<string, any> = {
       amount: 'Montant',
       percentage: 'Pourcentage',
       pleaseEnterValidValues: 'Veuillez entrer des valeurs valides pour tous les champs.',
+      calculate: 'Calculer',
+      results: 'Résultats',
+      finalBalance: 'Solde Final',
+      year: 'Année',
     },
     sidebar: {
+      dashboard: 'Tableau de bord',
+      assetAllocation: 'Allocation d\'Actifs',
       simulators: 'Simulateurs',
       compoundInterest: 'Intérêts Composés',
       debtRatio: 'Ratio d\'Endettement',
@@ -94,16 +117,10 @@ export const translations: Record<string, any> = {
       monthlyContribution: 'Contribution Mensuelle',
       annualInterestRate: 'Taux d\'Intérêt Annuel',
       investmentDuration: 'Durée d\'Investissement (Années)',
-      calculate: 'Calculer',
-      results: 'Résultats',
       totalInvestment: 'Investissement Total',
       interestEarned: 'Intérêts Gagnés',
-      finalBalance: 'Solde Final',
       totalContributions: 'Total Contributions',
       compoundInterest: 'Intérêts Composés',
-      total: 'Total',
-      amount: 'Montant',
-      year: 'Année',
       monthlyRevenue: 'Revenu Mensuel',
       withdrawRate: 'Taux de Retrait',
       compoundFrequency: 'Fréquence de Composition',
@@ -111,7 +128,22 @@ export const translations: Record<string, any> = {
       monthlyInvestment: 'Investissement Mensuel',
       selectCompoundFrequency: 'Sélectionner la fréquence de composition',
     },
-    // Add other features here as needed
+    assetAllocation: {
+      title: 'Allocation d\'Actifs',
+      totalAmount: 'Montant Total (€)',
+      cashAmount: 'Montant en Espèces (€)',
+      type: 'Type',
+      percentageWithoutCash: '% (sans Espèces)',
+      percentageWithCash: '% (avec Espèces)',
+      totalsShouldEqual: 'Les totaux doivent être égaux à 100%',
+      assetTypes: {
+        Cash: 'Espèces',
+        RealEstate: 'Immobilier',
+        Crypto: 'Crypto',
+        Stock: 'Actions',
+        Gold: 'Or'
+      }
+    },
   }
 }
 

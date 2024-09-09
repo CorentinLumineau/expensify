@@ -8,9 +8,9 @@ import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
-import { useTheme } from '../contexts/ThemeContext';
-import { RootState } from '../store/store';
-import { updateState, CompoundInterestState } from '../store/compoundInterestSlice';
+import { useTheme } from '@/app/contexts/ThemeContext';
+import { RootState } from '@/app/store/store';
+import { updateState, CompoundInterestState } from '@/app/store/compoundInterestSlice';
 import { useLanguage } from '@/app/contexts/LanguageContext';
 import { translations, Language } from '@/app/translations';
 
@@ -33,6 +33,7 @@ export function CompoundInterestCalculator() {
   const { theme } = useTheme();
   const { language } = useLanguage();
   const t = translations[language as Language].compoundInterestCalculator;
+  const tcommon = translations[language as Language].common;
 
   useEffect(() => {
     calculateCompoundInterest();
@@ -74,7 +75,7 @@ export function CompoundInterestCalculator() {
           borderColor: 'rgb(75, 192, 192)',
           backgroundColor: 'rgb(75, 192, 192)',
           borderWidth: 1,
-          fill: false,  // Change this to false
+          fill: false,
           pointRadius: 2,
         },
         {
@@ -83,16 +84,16 @@ export function CompoundInterestCalculator() {
           borderColor: 'rgb(53, 162, 235)',
           backgroundColor: 'rgb(53, 162, 235)',
           borderWidth: 1,
-          fill: false,  // Change this to false
+          fill: false,
           pointRadius: 2,
         },
         {
-          label: t.total,
+          label: tcommon.total,
           data: totalData,
           borderColor: 'rgb(255, 159, 64)',
           backgroundColor: 'rgb(255, 159, 64)',
           borderWidth: 1,
-          fill: false,  // Change this to false
+          fill: false,
           pointRadius: 2,
         },
       ],
@@ -179,7 +180,7 @@ export function CompoundInterestCalculator() {
         beginAtZero: true,
         title: {
           display: true,
-          text: t.amount,
+          text: tcommon.amount,
           color: theme === 'light' ? 'black' : 'white',
         },
         ticks: {
@@ -192,7 +193,7 @@ export function CompoundInterestCalculator() {
       x: {
         title: {
           display: true,
-          text: t.year,
+          text: tcommon.year,
           color: theme === 'light' ? 'black' : 'white',
         },
         ticks: {

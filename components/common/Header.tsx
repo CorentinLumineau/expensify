@@ -4,6 +4,8 @@ import { Menu } from "lucide-react";
 import { usePathname } from 'next/navigation';
 import { LanguageToggle } from "@/components/common/LanguageToggle";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
+import { useLanguage } from "@/app/contexts/LanguageContext";
+import { Language, translations } from "@/app/translations";
 
 interface HeaderProps {
     toggleSidebar: () => void;
@@ -11,17 +13,20 @@ interface HeaderProps {
 
 export default function Header({ toggleSidebar }: HeaderProps) {
     const pathname = usePathname();
+    const { language } = useLanguage();
+    const t = translations[language as Language].sidebar;
+    const tcommon = translations[language as Language].common;
 
     const getPageTitle = (path: string) => {
         switch (path) {
             case '/dashboard':
-                return 'Dashboard';
-            case '/allocations':
-                return 'Allocations';
+                return t.dashboard;
+            case '/asset-allocation':
+                return t.assetAllocation;
             case '/compound-interest':
-                return 'Compound Interest Calculator';
+                return t.compoundInterest;
             case '/debt-ratio':
-                return 'Debt Ratio Calculator';
+                return t.debtRatio;
             default:
                 return 'Expensify';
         }
@@ -55,7 +60,7 @@ export default function Header({ toggleSidebar }: HeaderProps) {
                         <SignedOut>
                             <SignInButton mode="modal">
                                 <button className="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
-                                    Sign In
+                                    {tcommon.signIn}
                                 </button>
                             </SignInButton>
                         </SignedOut>

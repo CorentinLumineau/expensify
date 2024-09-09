@@ -1,5 +1,5 @@
 'use client'
-import { Calculator, ChevronDown } from "lucide-react";
+import { Calculator, ChevronDown, Home } from "lucide-react";
 import HeaderSidebar from "./HeaderSidebar";
 import { useLanguage } from '@/app/contexts/LanguageContext';
 import { translations, Language } from '@/app/translations';
@@ -16,6 +16,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
   
   const navItems = [
+    {
+      section: t.dashboard,
+      icon: Home,
+      items: [
+        { name: t.assetAllocation, href: "/asset-allocation" },
+      ],
+    },
     {
       section: t.simulators,
       icon: Calculator,

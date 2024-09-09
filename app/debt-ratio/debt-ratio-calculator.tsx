@@ -208,7 +208,7 @@ export function DebtRatioCalculator() {
             <p className="text-lg">{t.totalIncomes}: <span className="font-semibold text-green-500">{formatCurrency(totalIncomes)}</span></p>
           </div>
           <p className="text-xl font-bold text-center">{t.debtRatio}:
-            <span className={totalIncomes > 0 ? (debtRatio < 0.35 ? "text-green-500" : "text-orange-500") : ""}>
+            <span className={totalIncomes > 0 ? (debtRatio < 0.35 ? "text-green-500" : debtRatio < 0.4 ? "text-orange-500" : "text-red-500") : ""}>
               {totalIncomes > 0 ? ` ${(debtRatio * 100).toFixed(2)}%` : ' N/A'}
             </span>
           </p>
