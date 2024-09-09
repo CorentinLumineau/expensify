@@ -1,5 +1,4 @@
 'use client'
-import { useState, useEffect } from 'react';
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Menu } from "lucide-react";
 import { usePathname } from 'next/navigation';
@@ -13,37 +12,10 @@ interface HeaderProps {
 }
 
 export default function Header({ toggleSidebar }: HeaderProps) {
-    const [isVisible, setIsVisible] = useState(true);
-    const [lastScrollY, setLastScrollY] = useState(0);
-
     const pathname = usePathname();
     const { language } = useLanguage();
     const t = translations[language as Language].sidebar;
     const tcommon = translations[language as Language].common;
-
-    useEffect(() => {
-        const controlNavbar = () => {
-            if (typeof window !== 'undefined') {
-                if (window.scrollY > lastScrollY) { // if scroll down hide the navbar
-                    setIsVisible(false);
-                } else { // if scroll up show the navbar
-                    setIsVisible(true);
-                }
-
-                // remember current page location to use in the next move
-                setLastScrollY(window.scrollY);
-            }
-        };
-
-        if (typeof window !== 'undefined') {
-            window.addEventListener('scroll', controlNavbar);
-
-            // cleanup function
-            return () => {
-                window.removeEventListener('scroll', controlNavbar);
-            };
-        }
-    }, [lastScrollY]);
 
     const getPageTitle = (path: string) => {
         switch (path) {
@@ -63,7 +35,7 @@ export default function Header({ toggleSidebar }: HeaderProps) {
     const pageTitle = getPageTitle(pathname);
 
     return (
-        <header className={`shadow-sm h-16 sticky top-0 transition-transform duration-300 bg-background z-50 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+        <header className="shadow-sm h-16 sticky top-0 bg-background z-50">
             <div className="mx-auto px-4 sm:px-8 h-full">
                 <div className="flex justify-between items-center h-full">
                     <div className="flex items-center">
