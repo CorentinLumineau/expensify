@@ -1,4 +1,4 @@
-import { AdvancedDebtRatioCalculator } from '@/components/advanced-debt-ratio-calculator'
+import { DebtRatioCalculator } from './debt-ratio-calculator'
 
 export const metadata = {
   title: 'Debt Ratio',
@@ -8,7 +8,7 @@ export const metadata = {
 export default function DebtRatioPage() {
   return (
     <div className="max-w-4xl mx-auto p-2 md:p-4">
-      <AdvancedDebtRatioCalculator />
+      <DebtRatioCalculator />
     </div>
   )
 }

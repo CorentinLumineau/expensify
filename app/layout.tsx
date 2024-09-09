@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react";
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
+import Header from "../components/common/Header";
+import Sidebar from "../components/common/Sidebar";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { ThemeProvider } from './contexts/ThemeContext';

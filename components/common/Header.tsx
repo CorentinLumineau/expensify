@@ -2,8 +2,8 @@
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Menu } from "lucide-react";
 import { usePathname } from 'next/navigation';
-import { LanguageToggle } from "./LanguageToggle";
-import { ThemeToggle } from "./ThemeToggle";
+import { LanguageToggle } from "@/components/common/LanguageToggle";
+import { ThemeToggle } from "@/components/common/ThemeToggle";
 
 interface HeaderProps {
     toggleSidebar: () => void;

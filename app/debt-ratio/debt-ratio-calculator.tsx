@@ -11,8 +11,8 @@ import { Info, PlusCircle, Trash2, Edit, Pencil } from 'lucide-react'
 import { addTransaction, updateTransaction, removeTransaction } from '@/app/store/debtRatioSlice'
 import { RootState } from '@/app/store/store'
 import { Transaction } from '@/app/store/debtRatioSlice'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../components/ui/tooltip'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../../components/ui/dialog'
 import { useLanguage } from '@/app/contexts/LanguageContext'
 import { Language, translations } from '@/app/translations'
 
@@ -21,7 +21,7 @@ const formatCurrency = (amount: number) => {
   return formatter.format(amount);
 }
 
-export function AdvancedDebtRatioCalculator() {
+export function DebtRatioCalculator() {
   const { language } = useLanguage()
   const t = translations[language as Language].debtRatioCalculator
   const common = translations[language as Language].common
