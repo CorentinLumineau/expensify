@@ -34,7 +34,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   ];
 
   return (
-    <>
+    <> 
       {/* Overlay */}
       {isOpen && (
         <div 
@@ -48,8 +48,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         fixed inset-y-0 left-0 transform ${isOpen ? 'translate-x-0 bg-background' : '-translate-x-full'}
         md:relative md:translate-x-0
         transition duration-200 ease-in-out
-        w-64 min-h-screen flex flex-col z-30
-        md:border-r border-gray-200 dark:border-gray-700
+        w-64 min-h-screen flex flex-col z-60
+        bg-background md:border-r border-gray-200 dark:border-gray-700
       `}>
         <HeaderSidebar onClose={onClose} />
         <ul className="space-y-6 p-4 flex-grow overflow-y-auto">

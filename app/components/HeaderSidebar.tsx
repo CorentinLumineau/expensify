@@ -29,9 +29,9 @@ export default function HeaderSidebar({ onClose }: HeaderSidebarProps) {
           priority
           className="z-10"
         />
-      <h2 className="absolute left-1/2 transform -translate-x-1/3 text-lg font-semibold text-gray-900 dark:text-white">
-        Expensify
-      </h2>
+        <h2 className="absolute left-1/2 transform -translate-x-1/3 text-lg font-semibold text-gray-900 dark:text-white">
+          Expensify
+        </h2>
       </div>
       <button
         onClick={onClose}
