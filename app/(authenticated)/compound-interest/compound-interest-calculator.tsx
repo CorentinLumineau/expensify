@@ -1,6 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,12 +8,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
 import { useTheme } from '@/app/contexts/ThemeContext';
-import { RootState } from '@/app/store/store';
-import { updateState, CompoundInterestState } from '@/app/store/compoundInterestSlice';
 import { useLanguage } from '@/app/contexts/LanguageContext';
 import { translations, Language } from '@/app/translations';
+import { useUser } from '@supabase/auth-helpers-react';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
+
+interface CompoundInterestState {
+  principal: number;
+  monthlyInvestment: number;
+  time: number;
+  rate: number;
+  withdrawRate: number;
+  compound: string;
+}
 
 const compoundOptions = [
   { value: "1", label: 'Annually' },
@@ -25,8 +32,14 @@ const compoundOptions = [
 ];
 
 export function CompoundInterestCalculator() {
-  const dispatch = useDispatch();
-  const state = useSelector((state: RootState) => state.compoundInterest);
+  const [state, setState] = useState<CompoundInterestState>({
+    principal: 10000,
+    monthlyInvestment: 100,
+    time: 10,
+    rate: 5,
+    withdrawRate: 3,
+    compound: "12",
+  });
   const [chartData, setChartData] = useState<any>(null);
   const [finalAmount, setFinalAmount] = useState<number>(0);
   const [monthlyRevenue, setMonthlyRevenue] = useState<number>(0);
@@ -35,9 +48,46 @@ export function CompoundInterestCalculator() {
   const t = translations[language as Language].compoundInterestCalculator;
   const tcommon = translations[language as Language].common;
 
+  const user = useUser();
+
+  useEffect(() => {
+    if (user) {
+      fetchUserData();
+    }
+  }, [user]);
+
   useEffect(() => {
     calculateCompoundInterest();
   }, [state, language]);
+
+  const fetchUserData = async () => {
+    if (!user) return;
+
+    const response = await fetch(`/api/compound-interest?userId=${user.id}`);
+    const data = await response.json();
+
+    if (data) {
+      setState(data);
+    } else {
+      // If no data exists, create a new record
+      await updateUserData(state);
+    }
+  };
+
+  const updateUserData = useCallback(async (newState: CompoundInterestState) => {
+    if (!user) return;
+
+    await fetch('/api/compound-interest', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: user.id,
+        ...newState
+      }),
+    });
+  }, [user]);
 
   const calculateCompoundInterest = () => {
     let totalAmount = state.principal;
@@ -101,7 +151,9 @@ export function CompoundInterestCalculator() {
   };
 
   const handleInputChange = (key: keyof CompoundInterestState, value: number | string) => {
-    dispatch(updateState({ [key]: value }));
+    const newState = { ...state, [key]: value };
+    setState(newState);
+    updateUserData(newState);
   };
 
   const formatCurrency = (value: number) => {
