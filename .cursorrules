@@ -1,0 +1,20 @@
+# .cursorrules
+
+# Next.js
+- Use functional components with hooks where possible.
+- Always prefer using Next.js built-in router and data fetching methods like `getStaticProps()` and `getServerSideProps()` for fetching data.
+- Implement API routes in the `/pages/api` directory for server-side functions.
+
+# shadcn
+- Follow the official shadcn UI documentation to maintain design consistency.
+- Utilize provided component patterns for building your UI to ensure compatibility and reusability.
+
+# Supabase
+- Use Supabase's built-in hooks for authentication and data operations.
+- Keep all Supabase-related logic in a dedicated context/provider for better state management.
+- Ensure the .env.local contains the necessary Supabase keys.
+
+# Tailwind CSS
+- Follow the Mobile First approach by default.
+- Use `@apply` sparingly to extract repeated utility classes, keeping the styles naturally inline when possible.
+- Use config files to customize Tailwind settings like theme colors and breakpoints.
