@@ -1,10 +1,15 @@
 'use client'
-import { Menu } from "lucide-react";
-import { usePathname } from 'next/navigation';
-import { LanguageToggle } from "./LanguageToggle";
-import { ThemeToggle } from "./ThemeToggle";
-import { useLanguage } from "@/app/contexts/LanguageContext";
-import { Language, translations } from "@/app/translations";
+
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useRouter } from 'next/navigation'
+import { Menu } from "lucide-react"
+import { usePathname } from 'next/navigation'
+import { LanguageToggle } from "./LanguageToggle"
+import { ThemeToggle } from "./ThemeToggle"
+import { useLanguage } from "@/app/contexts/LanguageContext"
+import { Language, translations } from "@/app/translations"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
 interface HeaderProps {
     toggleSidebar: () => void;
@@ -15,6 +20,8 @@ export default function Header({ toggleSidebar }: HeaderProps) {
     const { language } = useLanguage();
     const t = translations[language as Language].sidebar;
     const tcommon = translations[language as Language].common;
+    const router = useRouter()
+    const supabase = createClientComponentClient()
 
     const getPageTitle = (path: string) => {
         switch (path) {
@@ -33,6 +40,12 @@ export default function Header({ toggleSidebar }: HeaderProps) {
 
     const pageTitle = getPageTitle(pathname);
 
+    const handleSignOut = async () => {
+        await supabase.auth.signOut()
+        router.push('/sign-in')
+        router.refresh()
+    };
+
     return (
         <header className="shadow-sm h-16 sticky top-0 z-50">
             <div className="mx-auto px-4 sm:px-8 h-full">
@@ -49,6 +62,21 @@ export default function Header({ toggleSidebar }: HeaderProps) {
                     <div className="flex items-center space-x-4">
                         <ThemeToggle />
                         <LanguageToggle />
+                        {pathname !== '/sign-in' && pathname !== '/sign-up' && (
+                            <Button
+                                variant="outline"
+                                onClick={handleSignOut}
+                            >
+                                Sign Out
+                            </Button>
+                        )}
+                        {(pathname === '/sign-in' || pathname === '/sign-up') && (
+                            <Link href={pathname === '/sign-in' ? '/sign-up' : '/sign-in'}>
+                                <Button variant="outline">
+                                    {pathname === '/sign-in' ? 'Sign Up' : 'Sign In'}
+                                </Button>
+                            </Link>
+                        )}
                     </div>
                 </div>
             </div>
