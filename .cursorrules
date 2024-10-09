@@ -18,3 +18,16 @@
 - Follow the Mobile First approach by default.
 - Use `@apply` sparingly to extract repeated utility classes, keeping the styles naturally inline when possible.
 - Use config files to customize Tailwind settings like theme colors and breakpoints.
+
+# Drizzle ORM
+- Use Drizzle ORM for database operations and schema management.
+- Define database schemas using Drizzle's schema definition syntax in a dedicated schema file.
+- Utilize Drizzle's query builder for type-safe database queries.
+- Implement migrations using Drizzle's migration system.
+- Never manually modify files in the db/migrations/meta directory; these are managed by Drizzle.
+- Use Drizzle's relational queries for joining tables and complex data fetching.
+- Leverage Drizzle's prepared statements for improved security and performance.
+- Implement database transactions when necessary for data consistency.
+- Use Drizzle's built-in pagination methods for handling large datasets.
+- Utilize Drizzle's hooks for custom logic before or after database operations.
+
