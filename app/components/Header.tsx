@@ -13,9 +13,10 @@ import { Button } from "@/components/ui/button"
 
 interface HeaderProps {
     toggleSidebar: () => void;
+    onSignOut: () => Promise<void>;
 }
 
-export default function Header({ toggleSidebar }: HeaderProps) {
+export default function Header({ toggleSidebar, onSignOut }: HeaderProps) {
     const pathname = usePathname();
     const { language } = useLanguage();
     const t = translations[language as Language].sidebar;
@@ -40,11 +41,8 @@ export default function Header({ toggleSidebar }: HeaderProps) {
 
     const pageTitle = getPageTitle(pathname);
 
-    const handleSignOut = async () => {
-        await supabase.auth.signOut()
-        router.push('/sign-in')
-        router.refresh()
-    };
+    // Replace the local handleSignOut function with the prop
+    const handleSignOut = onSignOut;
 
     return (
         <header className="shadow-sm h-16 sticky top-0 z-50">

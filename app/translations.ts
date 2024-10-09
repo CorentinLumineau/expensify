@@ -71,6 +71,18 @@ export const translations: Record<string, any> = {
         Gold: 'Gold'
       }
     },
+    auth: {
+      signIn: 'Sign In',
+      signUp: 'Sign Up',
+      email: 'Email',
+      password: 'Password',
+      forgotPassword: 'Forgot Password?',
+      dontHaveAccount: "Don't have an account?",
+      alreadyHaveAccount: 'Already have an account?',
+      signInWithGoogle: 'Sign in with Google',
+      signUpWithGoogle: 'Sign up with Google',
+      or: 'or',
+    },
   },
   fr: {
     common: {
@@ -143,6 +155,18 @@ export const translations: Record<string, any> = {
         Stock: 'Actions',
         Gold: 'Or'
       }
+    },
+    auth: {
+      signIn: 'Se Connecter',
+      signUp: "S'Inscrire",
+      email: 'Email',
+      password: 'Mot de passe',
+      forgotPassword: 'Mot de passe oublié ?',
+      dontHaveAccount: "Vous n'avez pas de compte ?",
+      alreadyHaveAccount: 'Vous avez déjà un compte ?',
+      signInWithGoogle: 'Se connecter avec Google',
+      signUpWithGoogle: "S'inscrire avec Google",
+      or: 'ou',
     },
   }
 }
