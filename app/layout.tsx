@@ -25,7 +25,6 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-background text-foreground">
         <LanguageProvider>
-          <ClerkProvider>
             <Provider store={store}>
               <PersistGate loading={null} persistor={persistor}>
                 <ThemeProvider>
@@ -41,7 +40,6 @@ export default function RootLayout({
                 </ThemeProvider>
               </PersistGate>
             </Provider>
-          </ClerkProvider>
           <SpeedInsights />
         </LanguageProvider>
       </body>

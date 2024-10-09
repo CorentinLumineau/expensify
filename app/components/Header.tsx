@@ -1,5 +1,4 @@
 'use client'
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Menu } from "lucide-react";
 import { usePathname } from 'next/navigation';
 import { LanguageToggle } from "./LanguageToggle";
@@ -50,20 +49,6 @@ export default function Header({ toggleSidebar }: HeaderProps) {
                     <div className="flex items-center space-x-4">
                         <ThemeToggle />
                         <LanguageToggle />
-                        <SignedIn>
-                            <UserButton appearance={{
-                                elements: {
-                                    avatarBox: "w-10 h-10"
-                                }
-                            }} />
-                        </SignedIn>
-                        <SignedOut>
-                            <SignInButton mode="modal">
-                                <button className="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
-                                    {tcommon.signIn}
-                                </button>
-                            </SignInButton>
-                        </SignedOut>
                     </div>
                 </div>
             </div>
