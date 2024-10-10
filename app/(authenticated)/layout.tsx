@@ -29,7 +29,7 @@ export default function AuthenticatedLayout({
     <div className="flex h-screen">
       <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
       <div className="flex flex-col flex-1 overflow-hidden">
-        <Header toggleSidebar={toggleSidebar} onSignOut={handleSignOut} />
+        <Header toggleSidebar={toggleSidebar} onSignOut={handleSignOut} isAuthenticated={true} />
         <main className="flex-1 overflow-y-auto p-2 md:p-8 pb-16 md:pb-2">
           {children}
         </main>
