@@ -1,20 +1,24 @@
 'use client'
 
-import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useState, useEffect } from 'react'
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Info, PlusCircle, Trash2, Edit, Pencil } from 'lucide-react'
-import { addTransaction, updateTransaction, removeTransaction } from '@/app/store/debtRatioSlice'
-import { RootState } from '@/app/store/store'
-import { Transaction } from '@/app/store/debtRatioSlice'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../../components/ui/tooltip'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../../../components/ui/dialog'
 import { useLanguage } from '@/app/contexts/LanguageContext'
 import { Language, translations } from '@/app/translations'
+
+// Define Transaction type
+interface Transaction {
+  id: string;
+  name: string;
+  amount: number;
+  percentage: number;
+}
 
 const formatCurrency = (amount: number) => {
   const formatter = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
@@ -26,19 +30,46 @@ export function DebtRatioCalculator() {
   const t = translations[language as Language].debtRatioCalculator
   const common = translations[language as Language].common
 
-  const dispatch = useDispatch()
-  const expenses = useSelector((state: RootState) => state.debtRatio.expenses)
-  const incomes = useSelector((state: RootState) => state.debtRatio.incomes)
+  const [expenses, setExpenses] = useState<Transaction[]>([])
+  const [incomes, setIncomes] = useState<Transaction[]>([])
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null)
   const [editingType, setEditingType] = useState<'expense' | 'income'>('expense')
 
-  const updateTransactionHandler = (type: 'expense' | 'income', transaction: Transaction) => {
-    dispatch(updateTransaction({ type, transaction }))
+  useEffect(() => {
+    const storedExpenses = localStorage.getItem('expenses')
+    const storedIncomes = localStorage.getItem('incomes')
+    if (storedExpenses) setExpenses(JSON.parse(storedExpenses))
+    if (storedIncomes) setIncomes(JSON.parse(storedIncomes))
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('expenses', JSON.stringify(expenses))
+    localStorage.setItem('incomes', JSON.stringify(incomes))
+  }, [expenses, incomes])
+
+  const addTransaction = (type: 'expense' | 'income', transaction: Transaction) => {
+    if (type === 'expense') {
+      setExpenses([...expenses, transaction])
+    } else {
+      setIncomes([...incomes, transaction])
+    }
+  }
+
+  const updateTransaction = (type: 'expense' | 'income', updatedTransaction: Transaction) => {
+    if (type === 'expense') {
+      setExpenses(expenses.map(t => t.id === updatedTransaction.id ? updatedTransaction : t))
+    } else {
+      setIncomes(incomes.map(t => t.id === updatedTransaction.id ? updatedTransaction : t))
+    }
     setEditingTransaction(null)
   }
 
-  const removeTransactionHandler = (type: 'expense' | 'income', id: string) => {
-    dispatch(removeTransaction({ type, id }))
+  const removeTransaction = (type: 'expense' | 'income', id: string) => {
+    if (type === 'expense') {
+      setExpenses(expenses.filter(t => t.id !== id))
+    } else {
+      setIncomes(incomes.filter(t => t.id !== id))
+    }
   }
 
   const calculateTotals = () => {
@@ -72,7 +103,7 @@ export function DebtRatioCalculator() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => removeTransactionHandler(type, t.id)}
+              onClick={() => removeTransaction(type, t.id)}
               className="text-red-500 hover:text-red-700 hover:bg-red-100 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-900"
             >
               <Trash2 className="h-4 w-4" />
@@ -103,9 +134,9 @@ export function DebtRatioCalculator() {
       }
 
       if (transaction) {
-        updateTransactionHandler(type, updatedTransaction)
+        updateTransaction(type, updatedTransaction)
       } else {
-        dispatch(addTransaction({ type, transaction: updatedTransaction }))
+        addTransaction(type, updatedTransaction)
       }
 
       // Clear form if it's not for editing
