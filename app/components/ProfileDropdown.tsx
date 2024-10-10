@@ -23,9 +23,9 @@ interface ProfileDropdownProps {
 export function ProfileDropdown({ onSignOut, isAuthenticated = true }: ProfileDropdownProps) {
     const { language, setLanguage } = useLanguage();
     const { theme, setTheme } = useTheme();
-    const tcommon = translations[language as Language].common;
+    const tcommon = translations[language].common;
 
-    const languageOptions = [
+    const languageOptions: { value: Language; label: string; flag: string }[] = [
         { value: 'en', label: 'English', flag: '/images/gb-flag.svg' },
         { value: 'fr', label: 'Français', flag: '/images/fr-flag.svg' },
     ];
@@ -35,6 +35,12 @@ export function ProfileDropdown({ onSignOut, isAuthenticated = true }: ProfileDr
         { value: 'dark', icon: Moon, label: 'Dark' },
         { value: 'system', icon: Monitor, label: 'System' },
     ];
+
+    const handleLanguageChange = (newLanguage: Language) => {
+        if (newLanguage === 'en' || newLanguage === 'fr') {
+            setLanguage(newLanguage);
+        }
+    };
 
     return (
         <DropdownMenu>
@@ -55,7 +61,7 @@ export function ProfileDropdown({ onSignOut, isAuthenticated = true }: ProfileDr
                 {languageOptions.map((option) => (
                     <DropdownMenuItem 
                         key={option.value}
-                        onClick={() => setLanguage(option.value as Language)}
+                        onClick={() => handleLanguageChange(option.value)}
                         className={language === option.value ? 'bg-accent' : ''}
                     >
                         <div className="flex items-center w-full p-1">
