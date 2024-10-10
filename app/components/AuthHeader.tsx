@@ -1,10 +1,9 @@
 'use client'
 
-import { LanguageToggle } from "./LanguageToggle"
-import { ThemeToggle } from "./ThemeToggle"
 import { useLanguage } from "@/app/contexts/LanguageContext"
 import { Language, translations } from "@/app/translations"
 import Image from "next/image";
+import { ProfileDropdown } from "./ProfileDropdown"
 
 export default function AuthHeader() {
     const { language } = useLanguage();
@@ -14,18 +13,17 @@ export default function AuthHeader() {
         <header className="shadow-sm h-16 sticky top-0 z-50">
             <div className="mx-auto px-4 sm:px-8 h-full">
                 <div className="flex justify-between items-center h-full">
-                <Image
-          src="/icon-512x512.png"
-          alt="Expensify"
-          width={56}
-          height={56}
-          priority
-          className="z-10"
-        />
+                    <Image
+                        src="/icon-512x512.png"
+                        alt="Expensify"
+                        width={56}
+                        height={56}
+                        priority
+                        className="z-10"
+                    />
                     <h1 className="text-2xl leading-none font-semibold dark:text-white">Expensify</h1>
                     <div className="flex items-center space-x-4">
-                        <ThemeToggle />
-                        <LanguageToggle />
+                        <ProfileDropdown isAuthenticated={false} />
                     </div>
                 </div>
             </div>
