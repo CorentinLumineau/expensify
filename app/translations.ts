@@ -14,6 +14,7 @@ export const translations: Record<string, any> = {
       results: 'Results',
       finalBalance: 'Final Balance',
       year: 'Year',
+      myAccount: 'My Account',
     },
     sidebar: {
       dashboard: 'Dashboard',
@@ -99,6 +100,7 @@ export const translations: Record<string, any> = {
       results: 'Résultats',
       finalBalance: 'Solde Final',
       year: 'Année',
+      myAccount: 'Mon Compte',
     },
     sidebar: {
       dashboard: 'Tableau de bord',
