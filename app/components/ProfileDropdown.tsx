@@ -23,17 +23,17 @@ interface ProfileDropdownProps {
 export function ProfileDropdown({ onSignOut, isAuthenticated = true }: ProfileDropdownProps) {
     const { language, setLanguage } = useLanguage();
     const { theme, setTheme } = useTheme();
-    const tcommon = translations[language].common;
+    const t = translations[language].common;
 
     const languageOptions: { value: Language; label: string; flag: string }[] = [
-        { value: 'en', label: 'English', flag: '/images/gb-flag.svg' },
-        { value: 'fr', label: 'Français', flag: '/images/fr-flag.svg' },
+        { value: 'en', label: t.languages.english, flag: '/images/gb-flag.svg' },
+        { value: 'fr', label: t.languages.french, flag: '/images/fr-flag.svg' },
     ];
 
     const themeOptions = [
-        { value: 'light', icon: Sun, label: 'Light' },
-        { value: 'dark', icon: Moon, label: 'Dark' },
-        { value: 'system', icon: Monitor, label: 'System' },
+        { value: 'light', icon: Sun, label: t.themes.light },
+        { value: 'dark', icon: Moon, label: t.themes.dark },
+        { value: 'system', icon: Monitor, label: t.themes.system },
     ];
 
     const handleLanguageChange = (newLanguage: Language) => {
@@ -51,13 +51,13 @@ export function ProfileDropdown({ onSignOut, isAuthenticated = true }: ProfileDr
                     ) : (
                         <Settings className="h-[1.2rem] w-[1.2rem]" />
                     )}
-                    <span className="sr-only">Open settings menu</span>
+                    <span className="sr-only">{t.openSettingsMenu}</span>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
-                {isAuthenticated && <DropdownMenuLabel>{tcommon.myAccount}</DropdownMenuLabel>}
+                {isAuthenticated && <DropdownMenuLabel>{t.myAccount}</DropdownMenuLabel>}
                 {isAuthenticated && <DropdownMenuSeparator />}
-                <DropdownMenuLabel>Language</DropdownMenuLabel>
+                <DropdownMenuLabel>{t.language}</DropdownMenuLabel>
                 {languageOptions.map((option) => (
                     <DropdownMenuItem 
                         key={option.value}
@@ -80,7 +80,7 @@ export function ProfileDropdown({ onSignOut, isAuthenticated = true }: ProfileDr
                     </DropdownMenuItem>
                 ))}
                 <DropdownMenuSeparator />
-                <DropdownMenuLabel>Theme</DropdownMenuLabel>
+                <DropdownMenuLabel>{t.theme}</DropdownMenuLabel>
                 {themeOptions.map((option) => (
                     <DropdownMenuItem 
                         key={option.value}
@@ -101,7 +101,7 @@ export function ProfileDropdown({ onSignOut, isAuthenticated = true }: ProfileDr
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onSelect={onSignOut}>
                             <LogOut className="mr-2 h-4 w-4" />
-                            <span>Log out</span>
+                            <span>{t.logOut}</span>
                         </DropdownMenuItem>
                     </>
                 )}

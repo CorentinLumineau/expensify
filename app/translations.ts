@@ -15,6 +15,19 @@ export const translations: Record<string, any> = {
       finalBalance: 'Final Balance',
       year: 'Year',
       myAccount: 'My Account',
+      language: 'Language',
+      theme: 'Theme',
+      openSettingsMenu: 'Open settings menu',
+      logOut: 'Log out',
+      languages: {
+        english: 'English',
+        french: 'French',
+      },
+      themes: {
+        light: 'Light',
+        dark: 'Dark',
+        system: 'System',
+      },
     },
     sidebar: {
       dashboard: 'Dashboard',
@@ -101,6 +114,19 @@ export const translations: Record<string, any> = {
       finalBalance: 'Solde Final',
       year: 'Année',
       myAccount: 'Mon Compte',
+      language: 'Langue',
+      theme: 'Thème',
+      openSettingsMenu: 'Ouvrir le menu des paramètres',
+      logOut: 'Se déconnecter',
+      languages: {
+        english: 'Anglais',
+        french: 'Français',
+      },
+      themes: {
+        light: 'Clair',
+        dark: 'Sombre',
+        system: 'Système',
+      },
     },
     sidebar: {
       dashboard: 'Tableau de bord',

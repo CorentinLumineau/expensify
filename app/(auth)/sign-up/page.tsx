@@ -31,8 +31,8 @@ export default function SignUp() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background sm:p-4">
-      <Card className="w-full sm:max-w-md sm:rounded-lg rounded-none fixed sm:relative bottom-0 left-0 right-0">
+    <div className="w-full max-w-md">
+      <Card className="w-full">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">{t.signUp}</CardTitle>
         </CardHeader>
