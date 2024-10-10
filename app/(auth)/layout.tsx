@@ -1,4 +1,4 @@
-import AuthHeader from '../components/AuthHeader'
+import Header from '../components/Header'
 
 export default function AuthLayout({
   children,
@@ -7,7 +7,7 @@ export default function AuthLayout({
 }) {
   return (
     <div className="flex flex-col min-h-screen">
-      <AuthHeader />
+      <Header isAuthenticated={false} />
       <main className="flex-grow flex items-center justify-center">
         {children}
       </main>
